@@ -15,7 +15,7 @@ default_args = {
     'retry_delay': timedelta(minutes=1),
 }
 
-dag = DAG('bash_bash_bash', default_args=default_args)
+dag = DAG('bash_bash_bash', default_args=default_args, schedule_interval=timedelta(seconds=10))
 
 # t1, t2 and t3 are examples of tasks created by instatiating operators
 t1 = BashOperator(
@@ -25,7 +25,7 @@ t1 = BashOperator(
 
 t2 = BashOperator(
     task_id='sleep',
-    bash_command='sleep 5',
+    bash_command='sleep 500',
     retries=3,
     dag=dag)
 
