@@ -13,6 +13,7 @@ default_args = {
     'email_on_retry': False,
     'retries': 3,
     'retry_delay': timedelta(minutes=1),
+    'concurrency': 1,
 }
 
 dag = DAG('bash_bash_bash', default_args=default_args, schedule_interval=timedelta(seconds=10))
