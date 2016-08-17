@@ -21,27 +21,30 @@ dag = DAG('bash_bash_bash', default_args=default_args, schedule_interval=timedel
 t1 = BashOperator(
     task_id='print_date',
     bash_command='date',
-    dag=dag)
+    dag=dag
+)
 
 t2 = BashOperator(
     task_id='sleep',
-    bash_command='sleep 500',
+    bash_command='sleep 120',
     retries=3,
-    dag=dag)
+    dag=dag
+)
 
 templated_command = """
-    {% for i in range(5) %}
-        echo "{{ ds }}"
-        echo "{{ macros.ds_add(ds, 7)}}"
-        echo "{{ params.my_param }}"
-    {% endfor %}
+{% for i in range(5) %}
+echo "{{ ds }}"
+echo "{{ macros.ds_add(ds, 7)}}"
+echo "{{ params.my_param }}"
+{% endfor %}
 """
 
 t3 = BashOperator(
     task_id='templated',
     bash_command=templated_command,
     params={'my_param': 'Parameter I passed in'},
-    dag=dag)
+    dag=dag
+)
 
 t2.set_upstream(t1)
 t3.set_upstream(t1)
